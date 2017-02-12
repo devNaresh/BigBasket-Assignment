@@ -1,0 +1,9 @@
+/client/node_modules/
+*.pyc
+*.idea
+*.vscode
+.env
+db.json
+Procfile
+run.sh
+runtime.txt
