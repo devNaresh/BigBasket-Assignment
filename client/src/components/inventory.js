@@ -32,7 +32,7 @@ const InventoryCard = ({inventory, isAdmin, page, onEditClick, onDeleteClick}) =
   <Card style={styles.cardStyle}>
     <Grid style={styles.gridStyle}>
       <Row className="show-grid">
-        <Col xs={9}>
+        <Col xs={3} md={6} lg={9}>
           <CardHeader
             textStyle={styles.headerStyle}
             title={inventory.title.slice(0, 20)}/>

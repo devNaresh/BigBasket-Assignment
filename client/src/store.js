@@ -4,6 +4,10 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import cookie from 'react-cookie';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
+import axios from 'axios';
+
+
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const userLogin = store => next => action => {

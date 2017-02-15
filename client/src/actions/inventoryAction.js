@@ -10,9 +10,6 @@ export const DELETE_INVENTORY_ITEM = "delete inventory item"
 export const SELECTED_INVENTORY = "selected inventory"
 export const DESELECTED_INVENTORY = "not selectinventory"
 
-axios.defaults.headers.common['Authorization'] = "Token " + cookie.load('token');
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
 export function loadInventory(page = 1) {
     return function (dispatch) {
         dispatch({type: FETCH_INVENTORY})
