@@ -6,6 +6,7 @@ const DEFAULT_INVENTORY_DATA = {
     error: false,
     page: 1,
     selectedInventory: {id:-1},
+    deleteItemAlert: false,
     items: {results:[]}
 };
 
@@ -15,9 +16,9 @@ export function inventory(state = DEFAULT_INVENTORY_DATA, action) {
         case inventoryState.FETCH_INVENTORY:
             return {...state, fetching:true, fetched:false, error:false}
         case inventoryState.FETCH_INVENTORY_SUCCESS:
-            return {fetching:false, fetched:true, error:false, items:action.payload, page:action.page, selectedInventory: -1}
+            return {...state, fetching:false, fetched:true, error:false, items:action.payload, page:action.page, selectedInventory: -1}
         case inventoryState.FETCH_INVENTORY_ERROR:
-            return {...state, fetched:false, fetching:false, error:true, items:action.payload};
+            return {...state, fetched:false, fetching:false, error:true};
         case inventoryState.EDIT_INVENTORY_ITEM:
             inventory_obj =  {...state, fetched:true, fetching:false}
             inventory_obj.items.results = inventory_obj.items.results.map((element)=>{
@@ -27,8 +28,10 @@ export function inventory(state = DEFAULT_INVENTORY_DATA, action) {
                 return element
             });
             return inventory_obj
-        // case inventoryState.DELETE_INVENTORY_ITEM:
-        //     return {...state, fetching:false, fetched:true, error:false}
+        case inventoryState.DELETE_INVENTORY_ITEM:
+            return {...state, deleteItemAlert:true, selectedInventory:action.payload}
+        case inventoryState.CANCEL_DELETE_INVENTORY_ITEM:
+            return {...state, deleteItemAlert:false, selectedInventory:{id:-1}}
         case inventoryState.SELECTED_INVENTORY:
             return {...state, selectedInventory:action.payload}
         case inventoryState.DESELECTED_INVENTORY:

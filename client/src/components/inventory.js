@@ -25,6 +25,9 @@ const styles = {
   },
   headerStyle: {
     paddingRight: '0px'
+  },
+  cardMediaStyle: {
+    height: '400px'
   }
 };
 
@@ -32,7 +35,7 @@ const InventoryCard = ({inventory, isAdmin, page, onEditClick, onDeleteClick}) =
   <Card style={styles.cardStyle}>
     <Grid style={styles.gridStyle}>
       <Row className="show-grid">
-        <Col xs={3} md={6} lg={9}>
+        <Col xs={9} md={9} lg={9}>
           <CardHeader
             textStyle={styles.headerStyle}
             title={inventory.title.slice(0, 20)}/>
@@ -46,7 +49,7 @@ const InventoryCard = ({inventory, isAdmin, page, onEditClick, onDeleteClick}) =
             iconStyle={styles.buttonIconStyle}
             tooltip="Edit">mode_edit</IconButton>
           <IconButton
-            onClick={()=>onDeleteClick(inventory.id, page)}
+            onClick={()=>onDeleteClick(inventory)}
             style={styles.buttonStyle}
             iconClassName="material-icons"
             iconStyle={styles.buttonIconStyle}
@@ -54,7 +57,7 @@ const InventoryCard = ({inventory, isAdmin, page, onEditClick, onDeleteClick}) =
         </Col>:null}
       </Row>
       <CardMedia>
-        <img role="presentation" src={inventory.img}/>
+        <img style={styles.cardMediaStyle} role="presentation" src={inventory.img}/>
       </CardMedia>
       <CardText>
         Rs.

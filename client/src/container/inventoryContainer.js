@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import InventoryList from '../components/inventoryList';
-import {loadInventory, selectInventory, deleteInventory} from '../actions/inventoryAction'
+import {loadInventory, selectInventory, deleteInventory, 
+    DELETE_INVENTORY_ITEM, CANCEL_DELETE_INVENTORY_ITEM} from '../actions/inventoryAction'
 import {initialize} from 'redux-form'
 
 const mapStateToProps = ({inventory, user}) => {
@@ -15,8 +16,14 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(selectInventory(inventory))
             dispatch(initialize('InventoryForm',inventory))
         },
-        onDeleteClick: (inventoryID, pageNum)=>{
+        onAlertDeleteClick: (inventoryID, pageNum)=>{
             dispatch(deleteInventory(inventoryID, pageNum))
+        },
+        onDeleteClick: (inventory)=>{
+            dispatch({type:DELETE_INVENTORY_ITEM, payload:inventory})
+        },
+        onCancelDeleteClick: ()=>{
+            dispatch({type:CANCEL_DELETE_INVENTORY_ITEM})
         }
     }
 }

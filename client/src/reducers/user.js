@@ -2,7 +2,9 @@ import * as userAction from '../actions/userAction'
 
 const DEFAULT_USER_STATE = {
     isAdmin: false,
-    logginModal: false
+    logginModal: false,
+    logginRequest: false,
+    logginMessage: false,
 }
 export function user(state = DEFAULT_USER_STATE, action) {
     switch (action.type) {
@@ -14,6 +16,10 @@ export function user(state = DEFAULT_USER_STATE, action) {
             return {...state, logginModal:true}
         case userAction.HIDE_LOGGIN_MODAL:
             return {...state, logginModal:false}
+        case userAction.LOGIN:
+            return {...state, logginRequest:true, logginMessage:action.payload}
+        case userAction.HIDE_LOGIN_ALERT:
+            return {...state, logginRequest:false}
         default:
             return state
     }

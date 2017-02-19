@@ -6,7 +6,7 @@ const mapStateToProps = ({inventory}) => {
     let selectedInventory = inventory.items.results.filter(function(data){
         return data.id === inventory.selectedInventory.id
     })
-    if (selectedInventory.length === 0){
+    if (selectedInventory.length === 0 || inventory.deleteItemAlert){
         selectedInventory = [{id:-1}]
     }
     selectedInventory = selectedInventory[0]

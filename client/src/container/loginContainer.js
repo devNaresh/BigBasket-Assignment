@@ -3,7 +3,7 @@ import LoginForm from '../components/login';
 import {HIDE_LOGGIN_MODAL, adminSignIn} from '../actions/userAction'
 
 const mapStateToProps = ({user}) => {
-    return {showModal :user.logginModal}
+    return {showModal : user.logginModal}
 }
 
 const mapDispatchToProps = (dispatch) => {

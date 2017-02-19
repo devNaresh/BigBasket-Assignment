@@ -6,6 +6,7 @@ import InventoryContainer from '../container/inventoryContainer'
 import LoginContainer from '../container/loginContainer'
 import InventoryFormContainer from '../container/editInventoryContainer'
 import CircularProgress from 'material-ui/CircularProgress';
+import {Alert} from 'react-bootstrap';
 
 const styles = {
     autocompleteStyle: {
@@ -18,6 +19,13 @@ const styles = {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)'
+    },
+    alert:{
+        zIndex: '9999',
+        position: 'absolute',
+        margin: '0 auto',
+        left: '35%',
+        right: '35%'
     }
 }
 
@@ -27,6 +35,8 @@ const Home = ({user, inventory, onSignInClick}) => (
             ? <CircularProgress size={60} thickness={7} style={styles.progress}/>
             : <div>
                 <AppBar title="Inventory Home" iconElementRight={<FlatButton label={user.isAdmin?"Log Out":"Log In"} onClick={()=>onSignInClick(user.isAdmin)}/>}/>
+                {user.logginRequest?<Alert bsStyle={user.isAdmin?"success":"danger"} style={styles.alert}>
+                    {user.logginMessage} </Alert>:null}
                 <LoginContainer/>
                 <InventoryFormContainer/>
                 {false?<AutoComplete

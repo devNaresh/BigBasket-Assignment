@@ -1,48 +1,30 @@
 import React from 'react';
-import ReactModal from 'react-modal';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {teal100} from 'material-ui/styles/colors'
 import {Field, reduxForm} from 'redux-form';
-import IconButton from 'material-ui/IconButton';
-import {Grid, Row, Col} from 'react-bootstrap'
-
-const customStyles = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.85)'
-    },
-    content: {
-        width: "50%",
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
+import {Grid, Row, Col} from 'react-bootstrap';
+import Modal from 'react-responsive-modal';
 
 const styles = {
-    buttonStyle: {
-        width: 'auto',
-        height: 'auto',
-        padding: '6px',
-        marginLeft: '95%',
-        position: 'relative',
-    },
-    buttonIconStyle: {
-        fontSize: '18px',
-        position: 'initial',
+    modalStyle:{
+        width: "350px",
     },
     gridStyle: {
-    width: '100%'
+        width: '100%'
   },
 };
+
+const validate = values => {
+  const errors = {}
+  if (!values.title) {
+    errors.title = 'Required'
+  }
+  if (!values.price) {
+    errors.price = 'Required'
+  }
+  return errors
+}
 
 const renderField = field => {
     return (
@@ -53,7 +35,7 @@ const renderField = field => {
                 type={field.type}
                 hintText={field.label}
                 fullWidth={true}
-                errorText={field.touched && field.error}
+                errorText={field.meta.touched && field.meta.error}
                 floatingLabelText={field.floatingTest}/>
         </div>
     );
@@ -71,29 +53,23 @@ let InventoryForm = ({
     onSubmitClick,
 }) => {
     return (
-        <ReactModal
-            isOpen={selectedInventory.id > 0 ? true: false}
-            closeTimeoutMS={5}
-            style={customStyles}
-            contentLabel="Modal">
-            <IconButton
-                    onClick={() => onCloseClick()}
-                    style={styles.buttonStyle}
-                    iconClassName="material-icons"
-                    iconStyle={styles.buttonIconStyle}>close</IconButton>
+        <Modal open={selectedInventory.id > 0 ? true: false} onClose={() => onCloseClick()} closeIconSize={20} modalStyle={styles.modalStyle} little>
+            <br/>
+            <br/>
             <Grid style={styles.gridStyle}>
                 <Row className="show-grid">
-                    <Col xs={6}>
-                        <img src={selectedInventory.img} role="presentation" style={{height: '50%', width: '100%'}}/>
+                    <Col>
+                        <img src={selectedInventory.img} role="presentation" style={{height: '300px', width: '100%'}}/>
                     </Col>
-                    <Col xs={6}>
-                        {selectedInventory.id > 0?
+                </Row>
+                <Row>
+                    <Col >
                         <form onSubmit={handleSubmit(onSubmitClick)}>
                             <input type="hidden" name="id"/>
                             <input type="hidden" name="img"/>
-                            <Field component="input" name="id" type="hidden" value={selectedInventory.id}/>
-                            <Field name="title" type="text" floatingTest="Title" component={renderField} label={selectedInventory.title.slice(0, 20)}/>
-                            <Field name="price" type="text" floatingTest="Price" component={renderField} label={selectedInventory.price}/> {error && <strong>{error}</strong>}
+                            <Field component="input" name="id" type="hidden"/>
+                            <Field name="title" type="text" floatingTest="Title" component={renderField}/>
+                            <Field name="price" type="text" floatingTest="Price" component={renderField}/> {error && <strong>{error}</strong>}
                             <br/>
                             <div>
                                 <FlatButton
@@ -102,11 +78,11 @@ let InventoryForm = ({
                                     type="submit"
                                     disabled={submitting}>Submit</FlatButton>
                             </div>
-                        </form>:null}
+                        </form>
                     </Col>
                 </Row>
             </Grid>
-        </ReactModal>
+        </Modal>
     )
 }
-export default InventoryForm = reduxForm({form: 'InventoryForm'})(InventoryForm)
+export default InventoryForm = reduxForm({form: 'InventoryForm', validate})(InventoryForm)

@@ -1,33 +1,21 @@
 import React from 'react';
-import ReactModal from 'react-modal';
+import Modal from 'react-responsive-modal';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {teal100} from 'material-ui/styles/colors'
 import {Field, reduxForm} from 'redux-form';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
+import login from '../../public/login.png'
 
-const customStyles = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.85)'
-    },
-    content: {
-        width: "25%",
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-    }
-};
 
 const styles = {
+    modal: {
+        width: "300px",
+    },
+    login:{
+        height:'150px', 
+        display: 'block', 
+        margin: '0 auto'
+    },
     buttonStyle: {
         width: 'auto',
         height: 'auto',
@@ -44,6 +32,18 @@ const styles = {
     }
 };
 
+
+const validate = values => {
+  const errors = {}
+  if (!values.username) {
+    errors.username = 'Required'
+  }
+  if (!values.password) {
+    errors.password = 'Required'
+  }
+  return errors
+}
+
 const renderField = field => {
     return (
         <div>
@@ -53,17 +53,14 @@ const renderField = field => {
                 type={field.type}
                 hintText={field.label}
                 fullWidth={true}
-                errorText={field.touched && field.error}
+                errorText={field.meta.touched && field.meta.error}
                 floatingLabelText={field.label}/>
         </div>
     );
 };
 
 let LoginForm = ({
-    error,
     handleSubmit,
-    pristine,
-    reset,
     submitting,
     showModal,
     onCloseClick,
@@ -71,29 +68,9 @@ let LoginForm = ({
 }) => {
 
     return (
-        <ReactModal
-            isOpen={showModal}
-            closeTimeoutMS={5}
-            style={customStyles}
-            contentLabel="Modal">
-            <div
-                id="container"
-                style={{
-                position: 'relative'
-            }}>
-                <IconButton
-                    onClick={() => onCloseClick()}
-                    style={styles.buttonStyle}
-                    iconClassName="material-icons"
-                    iconStyle={styles.buttonIconStyle}>close</IconButton>
-                <h1 style={{
-                    textAlign: 'center'
-                }}>
-                    Log In
-                </h1>
-            </div>
-            <Divider/>
-            <br/>
+        <div>
+        <Modal open={showModal} onClose={() => onCloseClick()} closeIconSize={20} modalStyle={styles.modal} little>
+            <img src={login} alt="Login" style={styles.login}/>
             <form
                 onSubmit={handleSubmit(onLogInClick)}>
                 <Field name="username" type="text" component={renderField} label="Username"/>
@@ -101,19 +78,18 @@ let LoginForm = ({
                     name="password"
                     type="password"
                     component={renderField}
-                    label="Password"/> {error && <strong>{error}</strong>}
+                    label="Password"/>
                 <br/>
                 <div>
                     <FlatButton
                         backgroundColor={teal100}
-                        style={{
-                        marginLeft: '35%'
-                    }}
+                        style={{marginLeft: '35%'}}
                         type="submit"
                         disabled={submitting}>Log In</FlatButton>
                 </div>
             </form>
-        </ReactModal>
+        </Modal>
+        </div>
     )
 }
-export default LoginForm = reduxForm({form: 'LoginForm'})(LoginForm)
+export default LoginForm = reduxForm({form: 'LoginForm', validate})(LoginForm)

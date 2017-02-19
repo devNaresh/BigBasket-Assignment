@@ -4,7 +4,4 @@
 *.vscode
 .env
 db.json
-Procfile
-run.sh
-runtime.txt
 *.log

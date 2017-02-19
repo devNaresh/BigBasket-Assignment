@@ -1,5 +1,4 @@
 import axios from 'axios';
-import cookie from 'react-cookie';
 import config from '../config';
 
 export const FETCH_INVENTORY = "get inventory data";
@@ -7,6 +6,7 @@ export const FETCH_INVENTORY_SUCCESS = "inventory response"
 export const FETCH_INVENTORY_ERROR = "inventory error"
 export const EDIT_INVENTORY_ITEM = "edit inventory item"
 export const DELETE_INVENTORY_ITEM = "delete inventory item"
+export const CANCEL_DELETE_INVENTORY_ITEM = "cancel delete inventory item"
 export const SELECTED_INVENTORY = "selected inventory"
 export const DESELECTED_INVENTORY = "not selectinventory"
 
@@ -48,15 +48,10 @@ export function deleteInventory(intentoryId, pageNum) {
     return function (dispatch) {
         dispatch({type: FETCH_INVENTORY})
         axios
-            .delete(config.SERVER + `/inventory/${intentoryId}/`)
+            .delete(config.SERVER + `/inventory/${intentoryId}/`, {withCredentials: true})
             .then((response) => {
-                dispatch({
-                    type: DELETE_INVENTORY_ITEM,
-                    payload: {
-                        id: intentoryId
-                    }
-                })
                 dispatch(loadInventory(pageNum))
+                dispatch({type: CANCEL_DELETE_INVENTORY_ITEM})
             })
             .catch((error) => {
                 dispatch({type: FETCH_INVENTORY_ERROR, payload: error.data})
