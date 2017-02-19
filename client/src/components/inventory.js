@@ -38,7 +38,7 @@ const InventoryCard = ({inventory, isAdmin, page, onEditClick, onDeleteClick}) =
         <Col xs={9} md={9} lg={9}>
           <CardHeader
             textStyle={styles.headerStyle}
-            title={inventory.title.slice(0, 20)}/>
+            title={inventory.title.slice(0, 15)}/>
         </Col>
         {isAdmin?
         <Col>
