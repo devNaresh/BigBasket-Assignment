@@ -47,7 +47,7 @@ const InventoryList = ({inventory, isAdmin, onPageNumberClick, onEditClick, onDe
                 modal={false}
                 open={inventory.deleteItemAlert}
                 onRequestClose={() => onCancelDeleteClick()}>
-                    Hi Naresh
+                    Do you want to delete item?
             </Dialog>
                     
         </div>
