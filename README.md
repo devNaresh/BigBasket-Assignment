@@ -23,3 +23,5 @@ $ python manage.py runserver
 **DEMO**  
 
  For Demo Go to "localhost:8000"
+
+or [Click Here](https://devnaresh.herokuapp.com/inventory/)
